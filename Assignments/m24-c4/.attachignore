@@ -1,4 +1,0 @@
-jest.config.js
-src/__tests__/App.test.js
-__mocks__/styleMock.js
-__mocks__/fileMock.js

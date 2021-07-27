@@ -1,0 +1,4 @@
+.attachignore
+.vscode/settings.json
+.qualified-attach.json
+.*
