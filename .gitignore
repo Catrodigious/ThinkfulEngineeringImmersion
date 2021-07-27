@@ -2,3 +2,4 @@
 .vscode/settings.json
 .qualified-attach.json
 .*
+node_modules
