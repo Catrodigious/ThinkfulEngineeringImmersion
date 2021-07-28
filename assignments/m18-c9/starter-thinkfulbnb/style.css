@@ -25,23 +25,20 @@ section {
   padding: 20px;
 }
 
-
 section.alternate-background {
   background-color: #00a699;
-  color: #fff;
-  
+  color: #fff;  
 }
 
 main img {
-  width: 100px;
+  width: 100%;
 }
 
 /* ---  Groups & Items --- */
 
 .group {
   display: flex;
-  flex-direction: row;
-  justify-content: left;
+  flex-direction: column;
 }
 
 .item {
@@ -54,7 +51,11 @@ main img {
 }
 
 form {
-  display: inline-block;
+  display: flex;
+  border: 2px solid #000;
+  justify-content: space-between;
+  padding: 10px;
+  flex-direction: column;
 }
 
 /* -------  Navigation ------- */
@@ -78,6 +79,7 @@ header nav ul {
 }
 
 header nav ul li a {
+  flex-direction: row;
   color: #fff;
   text-decoration: none;
   padding: 0 20px 0 0;
@@ -90,27 +92,21 @@ header nav ul li a:hover {
 
 /* -------  Search Form ------- */
 form {
+  display: flex;
+  flex-direction: column;
   border: 2px solid #ff385c;
   padding: 10px;
-  display: inline;
-  vertical-align: middle;
 }
 
 form label {
   font-weight: bold;
-  display: inline-block;
-  width: 100px;
   text-align: left;
 }
 
-form select {
-  margin-bottom: 20px;
-  width: 195px;
-}
-
+form select,
 form input {
   margin-bottom: 20px;
-  width: 180px;
+  width: 65%;
 }
 
 form button {
@@ -122,64 +118,10 @@ form button {
   width: 100%;
 }
 
-.find-rental{
-  text-align: center;
+.form-separator{
   display: flex;
-  flex-direction: row;
+  justify-content: space-between;
 }
-
-/* -------  Grid ------- */
-
-.grid-container {
-  display: flex;
-  flex-direction: row;
-}
-
-.grid-item{
-  margin-right: 10px;
-}
-
-.about-container{
-  display: grid;
-  place-items: center center;
-}
-
-/* ------- Misc ------- */
-.about-description {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-}
-
-.idea-img {
-  width: auto;
-}
-
-.about-image{
-  width: auto;
-  height: 250px;
-}
-
-.ideas {
-  display: flex;
-  justify-content: space-evenly;
-  align-items: space-evenly;
-}
-
-.host-description {
-  display: grid;
-  place-items: center center;
-  max-width: 45%;
-}
-
-.host-item{
-  margin-top: 0px;
-}
-
-.less-padding{
-  padding: 0px;
-}
-
 /* -------  Footer ------- */
 
 footer {
@@ -193,10 +135,19 @@ footer p {
 }
 
 /* -------  Media Query ------- */
-@media all and (max-width: 480px){
+@media all and (min-width: 480px){
   form{
     display: flex;
     flex-direction: column;
+    justify-content: space-between;
+    padding: 10px;
+  }
+
+  header {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    flex-wrap: wrap;
   }
 
   .grid-container {
@@ -210,161 +161,42 @@ footer p {
     transform: translateY(20%);
   }
 
-  .idea-img,
-  .about-image {
-    max-width: 100%;
-    max-height: 250px;
-  }
-
   section.alternate-background {
     padding-bottom: 45px;
   }
 
+  .item label,
+  .item input,
+  .item select,
+  .item button {
+    display: flex;
+    width: 100%;
+  }
+
+  
   form input {
     width: 110px;
   }
+
   form select {
     max-width: 145px;
   }
 
-  .host-item {
-    margin-top: 20px;
-    margin-bottom: 20px;
-    text-align: left;
-  }
-
-  .host-description {
-    max-width: 100%;
-  }
-
-  .find-rental{
-    flex-direction: column;
-  }
-}
-
-
-@media all and (max-width: 1024px){
-  form{
-    display: flex;
-    flex-direction: column;
-  }
-
-  .grid-container {
-    display: flex;
-    flex-direction: column;
-    text-align: center;
-  }
-
-  .about-description {
-    margin-left: 0px;
-    transform: translateY(20%);
-  }
-
-  .about-image, 
-  .idea-img{
-    height: 400px;
-    max-width: 100%;
-  }
-
-  section.alternate-background {
-    padding-bottom: 45px;
-  }
-
-  form label {
-    display: inline-block;
-    text-align: left;
-  }
-  form input {
-    width: 120px;
-  }
-  
-  form select {
-    width: 155px;
-  }
-
-  .host-item {
-    margin-left: 10px;
-    margin-top: 20px;
-    text-align: left;
-    margin-bottom: 20px;
-  }
-  .host-description {
-    max-width: 100%;
-  }
-
-  .find-rental{
-    flex-direction: column;
-  }
-}
-
-
-@media all and (min-width: 1024px){
-  form {
+  .group {
     display: flex;
     flex-direction: row;
+    justify-content: center;
+    flex-flow: row nowrap;
     align-items: center;
   }
 
-  header nav ul {
-    display: flex;
-    justify-content: right;
-    top: 100%;
-
-  }
-
-  form {
-    display: flex;
-    justify-content: space-between;
-  }
-
-  form label {
-    
-    margin-right: 0px;
-    display: block;
-  }
-
-  form input {
-    margin-left: 0px;
-    margin-right: 0px;
-    display: inline;
-  }
-
-  .submit-button {
-    display: flex;
-    flex-direction: row-reverse;
-    flex: 2;
-  }
-
-  .idea-img{
-    height: 400px;
-    width: 100%;
-  }
-
-  .about-image{
-    height: 300px;
-  }
-
-  .host-image{
-    display: flex;
-    flex-direction: row-reverse;
-    width: 100%;
-  }
-
-  .host-img{
-    height: 300px;
-  }
-
-  .host-item {
-    margin-top: -20px;
-    margin-bottom: -20px;
-  }
-
-  .grid-container {
-    display: flex;
+  .find-rental {
+    flex-wrap: wrap;
     flex-direction: row;
+    justify-content: space-around;
   }
-
-  .find-rental{
-    flex-direction: row;
+  .find-rental .item {
+    flex-direction: column;
+    justify-content: flex-end;
   }
 }

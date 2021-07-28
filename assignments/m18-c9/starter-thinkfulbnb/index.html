@@ -36,22 +36,22 @@
         <h2>Find the perfect vacation rental</h2>
         <form class="find-rental">
           <!-- location -->
-          <div class="block">
+          <div class="item form-separator">
             <label for="location">Location</label>
             <input id="location" type="text" name="location"/>
           </div>
           <!-- arrive date -->
-          <div class="block">
+          <div class="item form-separator">
             <label for="arrival">Arrive</label>
             <input class="flex" id="arrival" type="date" name="arrival"/>
           </div>
           <!-- departure date -->
-          <div class="block">
+          <div class="item form-separator">
             <label for="departure">Depart</label>
             <input class="flex" id="departure" type="date" name="departure"/>
           </div>
           <!-- departure date -->
-          <div class="block">
+          <div class="item form-separator">
             <label for="rental-type">Type</label>
             <select class="flex" name="rental-type">
               <option value="Apartment">Apartment</option>
@@ -63,7 +63,7 @@
               <option value="Yurt">Yurt</option>
             </select>
           </div>
-          <div class="block">
+          <div>
             <button class="submit-button" type="submit">Search</button>
           </div>
         </form>
@@ -72,75 +72,61 @@
       <!-- About -->
       <section id="about" class="alternate-background">
         <h2>About</h2>
-        <div class="group">
-          <div class="grid-container">
-            <div class="grid-item">
+          <div class="group">
+            <div class="item">
               <img
                 src="images/vacation-rental-pool.png"
-                class="about-image"
                 alt="Thinkfulbnb - Vacation rental pool"
-                
               />
             </div>
-            <div class="grid-item">
+            <div class="item">
               <img
-                src="images/vacation-rental-inside-stone.png"
-                class="about-image"
+                src="images/vacation-rental-inside-stone.png" 
                 alt="Thinkfulbnb - Vacation rental inside stone"
-                
               />
-            </div>
-            <div class="grid-item about-container">
-              <p class="about-description">
-                Fusce porta odio nunc, eget pretium massa rutrum sit amet. Etiam
-                fringilla aliquam dapibus. Maecenas quis nisi sed turpis aliquam
-                porttitor eget ut quam. Sed vel scelerisque ex. Duis in pharetra
-                neque, at tempus lorem. Aenean mi magna, posuere at quam sed, euismod
-                gravida neque.
-              </p>
-            </div>
-        </div>
+            </div>            
+            <p class="item-double">
+              Fusce porta odio nunc, eget pretium massa rutrum sit amet. Etiam
+              fringilla aliquam dapibus. Maecenas quis nisi sed turpis aliquam
+              porttitor eget ut quam. Sed vel scelerisque ex. Duis in pharetra
+              neque, at tempus lorem. Aenean mi magna, posuere at quam sed, euismod
+              gravida neque.
+            </p>      
         </div>
       </section>
 
       <!-- Ideas -->
-      <section class="container" id="ideas">
+      <section id="ideas">
         <h2>Ideas</h2>
-        <div class="ideas">
-          <div class="grid-container">
-            <div class="grid-item">
-              <h3>Forest retreats</h3>
-              <img
-                class="idea-img"
-                src="images/forest-retreat.png"
-                alt="Thinkfulbnb - Forest retreat"
-                
-              />
-            </div>
-            <div class="grid-item">
-              <h3>Beaches</h3>
-              <img 
-                class="idea-img"
-                src="images/beach-house.png" 
-                alt="Thinkfulbnb - Beach house" 
-              />
-            </div>
+        <div class="group">
+          <div class="item">
+            <h3>Forest retreats</h3>
+            <img
+              src="images/forest-retreat.png"
+              alt="Thinkfulbnb - Forest retreat"
+              
+            />
+          </div>
+          <div class="item">
+            <h3>Beaches</h3>
+            <img 
+              src="images/beach-house.png" 
+              alt="Thinkfulbnb - Beach house" 
+            />
           </div>
         </div>
-        <div class="ideas">
-          <div class="grid-container">
-            <div class="grid-item">
+
+          <div class="group">
+            <div class="item">
               <h3>Rustic cabins</h3>
-              <img 
-                class="idea-img"
+              <img
                 src="images/cabin.png" 
                 alt="Thinkfulbnb - Cabin" 
               />
             </div>
-            <div class="grid-item">
+            <div class="item">
               <h3>Pet-friendly</h3>
-              <img 
-                class="idea-img" 
+              <img
                 src="images/pet-friendly.png" 
                 alt="Thinkfulbnb - Pet-friendly" 
               />
@@ -152,39 +138,32 @@
       <!-- Host -->
       <section id="host" class="alternate-background">
         
-        <div class="grid-container">
+        <div class="group">
           
-          <div class="grid-item host-description">
-            <div class="host-item">
-              <h2>Want to Become a Thinkfulbnb Host?</h2>
-            </div>
-            <div class="host-item">
-            <p style="margin:0px">
+          <div class="item">
+            <h2>Want to Become a Thinkfulbnb Host?</h2>
+            <p>
               Lorem ipsum dolor sit amet, consectetur adipiscing elit. Phasellus
               molestie in est id efficitur. Sed hendrerit ut turpis quis dapibus.
               Nam sit amet iaculis lectus. Aliquam erat volutpat. Praesent rhoncus
               pellentesque eros in aliquet. Sed accumsan elit lacus, id ultrices
               libero rutrum vitae.
             </p>
-            </div>
-            <div class="host-item">
-              <ul>
-                <li>Mauris in pellentesque ligula.</li>
-                <li>Sed accumsan elit lacus, id ultrices libero rutrum vitae.</li>
-                <li>Nunc vitae ex eget neque pellentesque porttitor.</li>
-                <li>Cras mollis lorem sagittis sapien imperdiet blandit. Vivamus.</li>
-                <li>
-                  Donec vehicula ipsum nisi, eu consectetur leo feugiat et. Fusce eget
-                  hendrerit mauris.
-                </li>
-              </ul>
-            </div>
+            <ul>
+              <li>Mauris in pellentesque ligula.</li>
+              <li>Sed accumsan elit lacus, id ultrices libero rutrum vitae.</li>
+              <li>Nunc vitae ex eget neque pellentesque porttitor.</li>
+              <li>Cras mollis lorem sagittis sapien imperdiet blandit. Vivamus.</li>
+              <li>
+                Donec vehicula ipsum nisi, eu consectetur leo feugiat et. Fusce eget
+                hendrerit mauris.
+              </li>
+            </ul>
           </div>
-          <div class="grid-item">
-            <div>
-              <img class="idea-img" src="images/become-a-host.png" alt="Thinkfulbnb - Become a host" />
-            </div>
-            </div>
+          
+          <div class="item">
+            <img src="images/become-a-host.png" alt="Thinkfulbnb - Become a host" />
+          </div>
         </div>
       </section>
     </main>
