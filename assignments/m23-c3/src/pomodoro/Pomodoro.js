@@ -1,6 +1,7 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import classNames from "../utils/class-names";
 import useInterval from "../utils/useInterval";
+import {minutesToDuration, secondsToDuration} from "../utils/duration";
 
 // These functions are defined outside of the component to insure they do not have access to state
 // and are, therefore more likely to be pure.
@@ -52,10 +53,28 @@ function Pomodoro() {
   const [isTimerRunning, setIsTimerRunning] = useState(false);
   // The current session - null where there is no session running
   const [session, setSession] = useState(null);
+  const [progress, setProgress] = useState(0);
 
   // ToDo: Allow the user to adjust the focus and break duration.
   const [focusDuration, setFocusDuration] = useState(25);
   const [breakDuration, setBreakDuration] = useState(5);
+
+  const focusDurationSec = focusDuration * 60;
+  const breakDurationSec = breakDuration * 60;
+
+  useEffect(()=>{
+    if (isTimerRunning){
+      if (session.label === "Focusing"){
+        const pTime = Math.round((1-(session.timeRemaining/focusDurationSec)) * 100);
+        setProgress(pTime);
+      }else{
+        const pTime = Math.round((1-(session.timeRemaining/breakDurationSec)) * 100);
+        setProgress(pTime);
+      }
+    }else{
+      setProgress(0);
+    }
+  }, [session]);
 
   /**
    * Custom hook that invokes the callback function every second
@@ -64,12 +83,12 @@ function Pomodoro() {
    */
   useInterval(() => {
       if (session.timeRemaining === 0) {
-        //new Audio("https://bigsoundbank.com/UPLOAD/mp3/1482.mp3").play();
+        // new Audio("https://bigsoundbank.com/UPLOAD/mp3/1482.mp3").play();
         return setSession(nextSession(focusDuration, breakDuration));
       }
       return setSession(nextTick);
     },
-    isTimerRunning ? 10 : null
+    isTimerRunning ? 1000 : null
   );
 
   /**
@@ -79,6 +98,7 @@ function Pomodoro() {
     setIsTimerRunning((prevState) => {
       const nextState = !prevState;
       if (nextState) {
+
         setSession((prevStateSession) => {
           // If the timer is starting and the previous session is null,
           // start a focusing session.
@@ -100,6 +120,7 @@ function Pomodoro() {
     setSession(null);
   }
 
+
   function ClockData(){
     return (
         <div>
@@ -108,11 +129,11 @@ function Pomodoro() {
             <div className="col">
               {/* TODO: Update message below to include current session (Focusing or On Break) total duration */}
               <h2 data-testid="session-title">
-                {session?.label} for {session.label ==="Focusing" ? focusDuration : breakDuration } minutes
+                {session?.label} for {session.label === "Focusing" ? minutesToDuration(focusDuration) : minutesToDuration(breakDuration) } minutes
               </h2>
               {/* TODO: Update message below correctly format the time remaining in the current session */}
               <p className="lead" data-testid="session-sub-title">
-                {session?.timeRemaining} remaining
+                {secondsToDuration(session.timeRemaining)} remaining
               </p>
             </div>
           </div>
@@ -124,8 +145,8 @@ function Pomodoro() {
                   role="progressbar"
                   aria-valuemin="0"
                   aria-valuemax="100"
-                  aria-valuenow="0" // TODO: Increase aria-valuenow as elapsed time increases
-                  style={{ width: "0%" }} // TODO: Increase width % as elapsed time increases
+                  aria-valuenow={progress} // TODO: Increase aria-valuenow as elapsed time increases
+                  style={{ width: `${progress}%` }} // TODO: Increase width % as elapsed time increases
                 />
               </div>
             </div>
@@ -197,6 +218,7 @@ function Pomodoro() {
       }
     }
   }
+
 
   return (
     <div className="pomodoro">
