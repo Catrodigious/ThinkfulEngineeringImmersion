@@ -1,10 +1,11 @@
 import React from "react";
-import { useParams } from "react-router-dom";
+import { useParams, Link, useRouteMatch} from "react-router-dom";
 import "./styles.css";
 
 export const DeckView = function({decks}){
     const _id = Number(useParams().deckId);
     const deck = decks.find((d)=>d.id ===_id);
+    const { url } = useRouteMatch();
 
     function DeckBlock(){
         return (
@@ -17,9 +18,11 @@ export const DeckView = function({decks}){
                     <button type="button" className="btn btn-secondary btn-lg">
                         Edit
                     </button>
-                    <button type="button" className="btn btn-primary btn-lg">
-                        Study
-                    </button>
+                    <Link to={`${url}/study`}>
+                        <button type="button" className="btn btn-primary btn-lg">
+                            Study
+                        </button>
+                    </Link>
                     <button type="button" className="btn btn-primary btn-lg">
                         Add Cards
                     </button>
@@ -42,7 +45,7 @@ export const DeckView = function({decks}){
                             <h5 className="text-primary">Home</h5>
                         </a> 
                         <h5>/</h5>
-                        <a className="nav-link color-black"><h5>{deck.name}</h5></a>
+                        <a className="nav-link color-black" href={`/decks/${deck.id}`}><h5>{deck.name}</h5></a>
                     </nav>
                 </div>
             </div>
@@ -50,7 +53,6 @@ export const DeckView = function({decks}){
     }
 
     function cardBlock(card){
-        console.log("card: ", card);
         return (
             <div className="card card-block" key={`card_${card.id}`}>
                 <div className="card-body">

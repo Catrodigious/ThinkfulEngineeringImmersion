@@ -28,18 +28,24 @@ function Home({decks}){
                                     <h5 className="card-title">{deck.name}</h5>
                                 </div>
                                 <div className="col-4">
-                                    <p>{deck.cards.length} Cards</p>
+                                    <p>{deck.cards.length} cards</p>
                                 </div>
                             </div>
                             <div className="row">
-                                <p className="card-text">{deck.description}</p>
+                                <div className="col-12">
+                                    <p className="card-text">{deck.description}</p>
+                                </div>
                             </div>
                             <div className="row">
                                 <div className="col-8">
-                                    <button type="button" className="btn btn-secondary">
-                                        <Link to={`decks/${deck.id}`}>View</Link>
-                                    </button>
-                                    <button type="button" className="btn btn-primary">Study</button>
+                                    <Link to={`decks/${deck.id}`}>
+                                        <button type="button" className="btn btn-secondary">
+                                            View
+                                        </button>
+                                    </Link>
+                                    <Link to={`decks/${deck.id}/study`}>
+                                        <button type="button" className="btn btn-primary">Study</button>
+                                    </Link>
                                 </div>
                                 <div className="col-4">
                                     <button type="button" className="btn btn-danger">Trash</button>

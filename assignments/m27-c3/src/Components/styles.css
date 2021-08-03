@@ -1,5 +1,5 @@
 a:visited {
-    color: #FFF;
+    color: #000;
 }
 
 nav-flex {
@@ -25,4 +25,9 @@ nav-flex {
 
 .card-block:hover{
     background-color: rgba(0,0,0,0.1);
+}
+
+.deck-description{
+    padding-left: 10px;
+    padding-right: 10px;
 }
