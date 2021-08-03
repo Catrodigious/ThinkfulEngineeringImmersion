@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 import useInterval from "../utils/useInterval";
 import { minutesToDuration, secondsToDuration } from "../utils/duration";
 import DurationControls from "./DurationControls";
@@ -54,7 +54,6 @@ function Pomodoro() {
   const [isTimerRunning, setIsTimerRunning] = useState(false);
   // The current session - null where there is no session running
   const [session, setSession] = useState(null);
-  const [progress, setProgress] = useState(0);
 
   // ToDo: Allow the user to adjust the focus and break duration.
   const [focusDuration, setFocusDuration] = useState(25);
@@ -62,27 +61,26 @@ function Pomodoro() {
 
   const focusDurationSec = focusDuration * 60;
   const breakDurationSec = breakDuration * 60;
-
-  useEffect(() => {
-    function updateProgress() {
-      if (isTimerRunning) {
-        if (session.label === "Focusing") {
-          const pTime = Math.round(
-            (1 - session.timeRemaining / focusDurationSec) * 100
-          );
-          setProgress(pTime);
-        } else if (session.label === "On Break") {
-          const pTime = Math.round(
-            (1 - session.timeRemaining / breakDurationSec) * 100
-          );
-          setProgress(pTime);
-        } else {
-          setProgress(0);
-        }
+ 
+  function updateProgress() {
+    if (isTimerRunning) {
+      if (session.label === "Focusing") {
+        const pTime = Math.round(
+          (1 - session.timeRemaining / focusDurationSec) * 100
+        );
+        return pTime;
+      } else if (session.label === "On Break") {
+        const pTime = Math.round(
+          (1 - session.timeRemaining / breakDurationSec) * 100
+        );
+        return pTime;
+      } else {
+        return 0;
       }
+    }else{
+      return 0;
     }
-    updateProgress();
-  }, [session]);
+  }
 
   /**
    * Custom hook that invokes the callback function every second
@@ -157,8 +155,8 @@ function Pomodoro() {
                 role="progressbar"
                 aria-valuemin="0"
                 aria-valuemax="100"
-                aria-valuenow={progress} // TODO: Increase aria-valuenow as elapsed time increases
-                style={{ width: `${progress}%` }} // TODO: Increase width % as elapsed time increases
+                aria-valuenow={updateProgress()}
+                style={{ width: `${updateProgress()}%`}} // TODO: Increase width % as elapsed time increases
               />
             </div>
           </div>
