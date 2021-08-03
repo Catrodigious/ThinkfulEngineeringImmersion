@@ -5,7 +5,7 @@ import "./styles.css";
 export const DeckView = function({decks}){
     const _id = Number(useParams().deckId);
     const deck = decks.find((d)=>d.id ===_id);
-    
+
     function DeckBlock(){
         return (
             <div className="row deck-block">
@@ -48,11 +48,53 @@ export const DeckView = function({decks}){
             </div>
         )
     }
+
+    function cardBlock(card){
+        console.log("card: ", card);
+        return (
+            <div className="card card-block" key={`card_${card.id}`}>
+                <div className="card-body">
+                    <div className="row">
+                        <div className="col-4">
+                            <p>{card.front}</p>
+                        </div>
+                        <div className="offset-1"></div>
+                        <div className="col-4">
+                            <p>{card.back}</p>
+                        </div>
+                        <div className="col-3">
+                            <div className="float-right">
+                            <button type="button" className="btn btn-secondary btn-lg">
+                                Edit
+                            </button>
+                            <button type="button" className="btn btn-danger btn-lg">
+                                Delete
+                            </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+          </div>
+        )
+    }
+
+    function AllCards(){
+        return (
+            <div className="new row">
+                <div className="col-12">
+                    <h1>Cards</h1>
+                    {deck.cards.map((card)=>cardBlock(card))}
+                </div>
+            </div>
+        )
+    }
+
     if (deck){
         return (
             <div className="container">
                 <Nav />
                 <DeckBlock />
+                <AllCards />
             </div>
         )
     }else{

@@ -5,14 +5,15 @@ import {
   Route,
   Switch,
   useParams,
-  useRouteMatch,
+  useRouteMatch
 } from "react-router-dom";
 import UserPosts from "./UserPosts";
 import UserProfile from "./UserProfile";
 
 export const User = ({ users = [] }) => {
   const { userId } = useParams();
-
+  
+  const { url } = useRouteMatch();
 
   if (!userId) {
     throw new Error("No URL parameter for userId");
@@ -29,21 +30,23 @@ export const User = ({ users = [] }) => {
           <ul>
             <li>
               <NavLink to={`#`} data-testid="user-profile">
-                Profile
+              <Link to={`${url}`}>Profile</Link>
               </NavLink>
             </li>
             <li>
               <NavLink to={`#`} data-testid="user-posts">
-                Posts
+                <Link to={`${url}/posts`}>Posts</Link>
               </NavLink>
             </li>
           </ul>
           <UserProfile user={user} />
         </div>
         <Switch>
-          <Route path="/profile"></Route>
-          <Route path="/user-posts/:id">
+          <Route path={`${url}/posts`}>
             <UserPosts posts={user.posts} />
+          </Route>
+          <Route>
+            <UserProfile user={user} />
           </Route>
         </Switch>
       </section>

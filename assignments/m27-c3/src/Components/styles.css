@@ -18,3 +18,11 @@ nav-flex {
 .color-black {
     color: #000;
 }
+
+.new {
+    margin-top: 2em;
+}
+
+.card-block:hover{
+    background-color: rgba(0,0,0,0.1);
+}
