@@ -3,9 +3,12 @@ import { useParams, Link, useRouteMatch} from "react-router-dom";
 import "./styles.css";
 
 export const DeckView = function({decks}){
+    const { url } = useRouteMatch();
     const _id = Number(useParams().deckId);
     const deck = decks.find((d)=>d.id ===_id);
-    const { url } = useRouteMatch();
+
+    if (!deck) return null;
+
 
     function DeckBlock(){
         return (
@@ -15,17 +18,21 @@ export const DeckView = function({decks}){
                     <h5>{deck.description}</h5>
                 </div>
                 <div className="col-12">
-                    <button type="button" className="btn btn-secondary btn-lg">
-                        Edit
-                    </button>
+                    <Link to={`${url}/edit`}>
+                        <button type="button" className="btn btn-secondary btn-lg">
+                            Edit
+                        </button>
+                    </Link>
                     <Link to={`${url}/study`}>
                         <button type="button" className="btn btn-primary btn-lg">
                             Study
                         </button>
                     </Link>
+                    <Link to={`${url}/cards/new`}>
                     <button type="button" className="btn btn-primary btn-lg">
                         Add Cards
                     </button>
+                    </Link>
                     <div className="float-right">
                     <button type="button" className="btn btn-danger btn-lg">
                         Trash
@@ -45,7 +52,7 @@ export const DeckView = function({decks}){
                             <h5 className="text-primary">Home</h5>
                         </a> 
                         <h5>/</h5>
-                        <a className="nav-link color-black" href={`/decks/${deck.id}`}><h5>{deck.name}</h5></a>
+                        <a className="nav-link text-secondary" href={`/decks/${deck.id}`}><h5>{deck.name}</h5></a>
                     </nav>
                 </div>
             </div>
@@ -57,18 +64,22 @@ export const DeckView = function({decks}){
             <div className="card card-block" key={`card_${card.id}`}>
                 <div className="card-body">
                     <div className="row">
+                        <div className="col-1 border-right">
+                            <p>{card.id}</p>
+                        </div>
                         <div className="col-4">
                             <p>{card.front}</p>
                         </div>
-                        <div className="offset-1"></div>
                         <div className="col-4">
                             <p>{card.back}</p>
                         </div>
                         <div className="col-3">
                             <div className="float-right">
+                            <Link to={`${url}/cards/${card.id}/edit`}>
                             <button type="button" className="btn btn-secondary btn-lg">
                                 Edit
                             </button>
+                            </Link>
                             <button type="button" className="btn btn-danger btn-lg">
                                 Delete
                             </button>

@@ -24,9 +24,9 @@ export const Study = function({decks}){
                         <h5 className="text-primary">Home</h5>
                     </a> 
                     <h5>/</h5>
-                    <a className="nav-link color-black" href={`/decks/${deck.id}`}><h5>{deck.name}</h5></a>
+                    <a className="nav-link text-primary" href={`/decks/${deck.id}`}><h5>{deck.name}</h5></a>
                     <h5>/</h5>
-                    <a className="nav-link color-black" href={`/decks/${deck.id}/study`}><h5>Study</h5></a>
+                    <a className="nav-link text-secondary" href={`/decks/${deck.id}/study`}><h5>Study</h5></a>
                 </nav>
             </div>
         </div>
@@ -85,7 +85,9 @@ export const Study = function({decks}){
                 <button type="button" className="btn btn-secondary btn-lg" onClick={()=>handleCardFlip()}>
                   Flip ({isFlipped ? "Front" : "Back" })
                 </button>
-                <button type="button" className="btn btn-primary btn-lg" onClick={()=>{handleNext()}}>Next</button>
+                { (isFlipped && focus < cards.length) &&
+                  <button type="button" className="btn btn-primary btn-lg" onClick={()=>  {handleNext()}}>Next</button>
+                  }
 
                   {focus === cards.length && <Finish />}
                 </div>

@@ -7,10 +7,12 @@ function Home({decks}){
         return (       
             <div className="row">     
                 <div className="col-2">
-                    <button type="button" className="btn btn-secondary">
-                        <span className="iconic" data-glyph="plus" title="plus" aria-hidden="true"></span>
-                        Create Deck
-                    </button>
+                    <Link to="decks/new">
+                        <button type="button" className="btn btn-secondary">
+                            <span className="iconic" data-glyph="plus" title="plus" aria-hidden="true"></span>
+                            Create Deck
+                        </button>
+                    </Link>
                 </div>
             </div>
         )
