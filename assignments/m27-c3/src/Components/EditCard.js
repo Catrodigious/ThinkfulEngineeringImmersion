@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import { useHistory, useParams } from "react-router-dom";
+import { updateCard } from "../utils/api";
 
 // Needs wiring
 // Review React State Management - Forms w/Input Fields
@@ -9,6 +10,7 @@ export const EditCard = function({decks}){
   const history = useHistory();
   const [editFront, setFrontEdit] = useState("");
   const [editBack, setBackEdit] = useState("");
+
   const _deckId = Number(useParams().deckId);
   const _cardId = Number(useParams().cardId);
 
@@ -18,6 +20,8 @@ export const EditCard = function({decks}){
   if (!deck) return null;
 
   const card = deck.cards.find((c)=>c.id===_cardId);
+
+  if (card) console.log(card);
 
   const handleFrontChange = (evt) => setFrontEdit(evt.target.value);
   const handleBackChange = (evt) => setBackEdit(evt.target.value);
@@ -53,7 +57,16 @@ export const EditCard = function({decks}){
   function handleOnSubmit(evt){
     evt.preventDefault();
 
-    console.log("editFront: ", editFront);
+    async function makeCardEdit(){
+      card.front = editFront;
+      card.back = editBack;
+
+      const response = await updateCard(card);
+
+      if (response) history.go(-1);
+    }
+
+    if (editFront && editBack) makeCardEdit();
   }
 
  
@@ -67,11 +80,11 @@ export const EditCard = function({decks}){
           <form className="EditCardForm" onSubmit={handleOnSubmit}>
           <div className="form-group">
               <label htmlFor="editCardFront">Front</label>
-              <textarea className="form-control" id="editFront" name="editFront" placeholder={card.front} rows="2" onChange={handleFrontChange}></textarea>
+              <textarea className="form-control" id="editFront" name="editFront" placeholder={card.front} rows="2" required onChange={handleFrontChange}></textarea>
             </div>
             <div className="form-group">
               <label htmlFor="editCardBack">Back</label>
-              <textarea className="form-control" id="editBack" name="editBack" placeholder={card.back} rows="2" value={editBack} onChange={handleBackChange}></textarea>
+              <textarea className="form-control" id="editBack" name="editBack" placeholder={card.back} rows="2" value={editBack} required onChange={handleBackChange}></textarea>
             </div>
             <div className="form-group">
               <button type="button" className="btn btn-secondary btn-lg" onClick={()=>history.go(-1)}>

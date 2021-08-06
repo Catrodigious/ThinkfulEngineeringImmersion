@@ -1,5 +1,6 @@
-import React from "react";
+import React, { useState } from "react";
 import { useHistory, useParams } from "react-router-dom";
+import { createCard } from "../utils/api";
 
 // Review React State Management - Forms w/Input Fields
 //  https://courses.thinkful.com/zid-fe-react-state-management-v1/checkpoint/6
@@ -7,12 +8,20 @@ import { useHistory, useParams } from "react-router-dom";
 export const NewCard = function({decks}){
   const history = useHistory();
   const _deckId = Number(useParams().deckId);
+  const [front, setFront] = useState("");
+  const [back, setBack] = useState("");
 
   if (!decks) return null;
   const deck = decks.find((d)=>d.id ===_deckId);
   if (!deck) return null;
-  console.log(deck);
 
+  const handleFrontInput = (evt) => setFront(evt.target.value);
+  const handleBackInput = (evt) => setBack(evt.target.value);
+
+  const cardObject = {
+    front: "",
+    back: "",
+  }
 
   function Nav(){
     return (
@@ -43,21 +52,38 @@ export const NewCard = function({decks}){
   function handleOnSubmit(evt){
     evt.preventDefault();
 
+    async function createNewCard(cardObj){
+      const response = await createCard(_deckId, cardObject);
+      if (response){
+        history.push(`/decks/${_deckId}`);
+        history.goForward();
+        history.go(0);
+
+      };
+    }
+
     console.log("Submit button was clicked!: ", evt.target);
+    
+    cardObject.front = front;
+    cardObject.back = back;
+
+    createNewCard(cardObject);
   }
 
-  function NewCardForm(){
-    return (
+  return (
+    <div className="container">
+      <Nav />
+      <TitleBar />
       <div className="row">
         <div className="col-12">
           <form className="newCardForm" onSubmit={handleOnSubmit}>
             <div className="form-group">
               <label htmlFor="newCardFront">Front</label>
-              <textarea className="form-control" id="newCardFront" placeholder="Front side of card" rows="2"></textarea>
+              <textarea className="form-control" id="newCardFront" placeholder="Front side of card" rows="2" onChange={handleFrontInput}></textarea>
             </div>
             <div className="form-group">
               <label htmlFor="newCardBack">Back</label>
-              <textarea className="form-control" id="newCardBack" placeholder="Back side of card" rows="2"></textarea>
+              <textarea className="form-control" id="newCardBack" placeholder="Back side of card" rows="2" onChange={handleBackInput}></textarea>
             </div>
             <div className="form-group">
               <button type="button" className="btn btn-secondary btn-lg" onClick={()=>history.go(-1)}>
@@ -70,14 +96,6 @@ export const NewCard = function({decks}){
           </form>
         </div>
       </div>
-    )
-  }
-
-  return (
-    <div className="container">
-      <Nav />
-      <TitleBar />
-      <NewCardForm />
     </div>  
   )
 }

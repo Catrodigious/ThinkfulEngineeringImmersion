@@ -1,14 +1,17 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { useParams, Link, useRouteMatch} from "react-router-dom";
 import "./styles.css";
 
-export const DeckView = function({decks}){
+export const DeckView = function({decks, removeCard}){
     const { url } = useRouteMatch();
     const _id = Number(useParams().deckId);
     const deck = decks.find((d)=>d.id ===_id);
 
     if (!deck) return null;
 
+    const handleDeleteCard = (cardId) => {
+        removeCard(cardId, _id);
+    }
 
     function DeckBlock(){
         return (
@@ -35,7 +38,7 @@ export const DeckView = function({decks}){
                     </Link>
                     <div className="float-right">
                     <button type="button" className="btn btn-danger btn-lg">
-                        Trash
+                        Delete
                     </button>
                     </div>
                 </div>
@@ -80,7 +83,7 @@ export const DeckView = function({decks}){
                                 Edit
                             </button>
                             </Link>
-                            <button type="button" className="btn btn-danger btn-lg">
+                            <button type="button" className="btn btn-danger btn-lg" onClick={()=>handleDeleteCard(card.id)}>
                                 Delete
                             </button>
                             </div>

@@ -2,7 +2,12 @@ import React from "react";
 import { Link } from "react-router-dom";
 import "./styles.css";
 
-function Home({decks}){
+function Home({decks, removeDeck}){
+
+    const handleDeleteDeck = (deckId) => {
+        removeDeck(deckId);
+    }
+
     function CreateDeck(){
         return (       
             <div className="row">     
@@ -50,7 +55,7 @@ function Home({decks}){
                                     </Link>
                                 </div>
                                 <div className="col-4">
-                                    <button type="button" className="btn btn-danger">Trash</button>
+                                    <button type="button" className="btn btn-danger" onClick={()=>handleDeleteDeck(deck.id)}>Delete</button>
                                 </div>
                             </div>
                         </div>

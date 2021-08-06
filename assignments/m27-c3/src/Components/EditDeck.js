@@ -1,5 +1,6 @@
-import React from "react";
+import React, {useState} from "react";
 import { useHistory, useParams } from "react-router-dom";
+import { updateDeck } from "../utils/api";
 
 // Needs wiring
 // Review React State Management - Forms w/Input Fields
@@ -7,8 +8,14 @@ import { useHistory, useParams } from "react-router-dom";
 
 export const EditDeck = function({decks}){
   const history = useHistory();
+  const [name, setName] = useState("");
+  const [description, setDescription] = useState("");
+
   const _id = Number(useParams().deckId);
   const deck = decks.find((d)=>d.id ===_id);
+
+  const handleNameChange = (evt) => setName(evt.target.value);
+  const handleDescriptionChange = (evt) => setDescription(evt.target.value);
 
   if (!deck) return null;
 
@@ -43,21 +50,37 @@ export const EditDeck = function({decks}){
   function handleOnSubmit(evt){
     evt.preventDefault();
 
-    console.log("Submit button was clicked!: ", evt.target);
+    async function sendDeckUpdate(deck){
+      const response = await updateDeck(deck);
+      
+      setName("");
+      setDescription("");
+      history.go(-1);
+    }
+
+ 
+    if (name && description){
+      deck.name = name;
+      deck.description = description;
+      sendDeckUpdate(deck);
+    }
+
   }
 
-  function EditDeckForm(){
-    return (
+  return (
+    <div className="container">
+      <Nav />
+      <TitleBar />
       <div className="row">
         <div className="col-12">
           <form className="EditDeckForm" onSubmit={handleOnSubmit}>
             <div className="form-group">
               <label htmlFor="editDeckName">Name</label>
-              <input type="text" className="form-control" id="editDeckName" placeholder={deck.name} />
+              <input type="text" className="form-control" id="editDeckName" required placeholder={deck.name} onChange={handleNameChange}  />
             </div>
             <div className="form-group">
               <label htmlFor="editDeckDescription">Brief Description</label>
-              <textarea className="form-control" id="editDeckDescription" placeholder={deck.description} rows="3"></textarea>
+              <textarea className="form-control" id="editDeckDescription" required placeholder={deck.description} rows="3" onChange={handleDescriptionChange}></textarea>
             </div>
             <div className="form-group">
               <button type="button" className="btn btn-secondary btn-lg" onClick={()=>history.go(-1)}>
@@ -69,17 +92,8 @@ export const EditDeck = function({decks}){
             </div>
           </form>
         </div>
-      </div>
-    )
-  }
-
-  return (
-    <div className="container">
-      <Nav />
-      <TitleBar />
-      <EditDeckForm />
-    </div>  
+      </div>    
+    </div>
   )
 }
-
 export default EditDeck;

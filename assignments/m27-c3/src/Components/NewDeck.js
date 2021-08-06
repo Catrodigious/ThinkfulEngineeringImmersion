@@ -1,5 +1,6 @@
-import React from "react";
+import React, { useState } from "react";
 import { useHistory } from "react-router-dom";
+import { createDeck } from "../utils/api";
 
 // Review React State Management - Forms w/Input Fields
 //  https://courses.thinkful.com/zid-fe-react-state-management-v1/checkpoint/6
@@ -7,6 +8,12 @@ import { useHistory } from "react-router-dom";
 export const NewDeck = function(){
   const history = useHistory();
   console.log("CreateDeck was called");
+  const [name, setName] = useState("");
+  const [description, setDescription] = useState("");
+
+  const handleNameChange = (evt) => setName(evt.target.value);
+  const handleDescriptionChange = (evt) => setDescription(evt.target.value);
+
   function Nav(){
     return (
         <div className="row">
@@ -36,21 +43,35 @@ export const NewDeck = function(){
   function handleOnSubmit(evt){
     evt.preventDefault();
 
-    console.log("Submit button was clicked!: ", evt.target);
+    async function addNewDeck(){
+      const newDeckObj = {name, description};
+      const response = await createDeck(newDeckObj);
+
+      if (response){
+        console.log("created new deck... response: ", response);
+        history.push(`/decks/${response.id}`);
+        history.goForward();
+        history.go(0);
+      }
+    }
+
+    addNewDeck();
   }
 
-  function NewDeckForm(){
-    return (
+  return (
+    <div className="container">
+      <Nav />
+      <TitleBar />
       <div className="row">
         <div className="col-12">
           <form className="newDeckForm" onSubmit={handleOnSubmit}>
             <div className="form-group">
               <label htmlFor="newDeckName">Name</label>
-              <input type="text" className="form-control" id="newDeckName" placeholder="Deck Name" />
+              <input type="text" className="form-control" id="newDeckName" placeholder="Deck Name" required onChange={handleNameChange}/>
             </div>
             <div className="form-group">
               <label htmlFor="newDeckDescription">Brief Description</label>
-              <textarea className="form-control" id="newDeckDescription" placeholder="A concise description of the deck" rows="3"></textarea>
+              <textarea className="form-control" id="newDeckDescription" placeholder="A concise description of the deck" rows="3" required onChange={handleDescriptionChange}></textarea>
             </div>
             <div className="form-group">
               <button type="button" className="btn btn-secondary btn-lg" onClick={()=>history.go(-1)}>
@@ -63,14 +84,6 @@ export const NewDeck = function(){
           </form>
         </div>
       </div>
-    )
-  }
-
-  return (
-    <div className="container">
-      <Nav />
-      <TitleBar />
-      <NewDeckForm />
     </div>  
   )
 }

@@ -1,7 +1,8 @@
 import React, { useState,  } from "react";
-import { useParams, useHistory } from "react-router-dom";
+import { useParams, useHistory, useRouteMatch } from "react-router-dom";
 
 export const Study = function({decks}){
+  const { url } = useRouteMatch();
   const history = useHistory();
   const [isFlipped, setFlipped] = useState(false);
   const [focus, setFocus] = useState(1);
@@ -12,7 +13,13 @@ export const Study = function({decks}){
   if (!deck) return null;
 
   const cards = deck.cards || null;
-  if (!cards) return null;
+
+  const handleAddCards = (evt) => {
+    evt.preventDefault();
+    const addCardsUrl = url.replace('study', 'cards/new');
+    history.push(addCardsUrl);
+    history.goForward();
+  }
 
 
   function Nav(){
@@ -99,11 +106,29 @@ export const Study = function({decks}){
     )
   }
 
+  function NotEnoughCards(){
+    return (
+      <div className="row text-center">
+        <div className="col-12">
+          <h2>Not Enough Cards</h2>
+        </div>
+        <div className="col-12">
+          <h4>You need at least 3 cards to study</h4>
+        </div>
+        <div className="col-12">
+          <button type="button" className="btn btn-primary" onClick={handleAddCards}>Add Cards</button>
+        </div>
+      </div>
+    )
+  }
+
   return (
     <div className="container">
       <Nav />
       <TitleBar />
-      <StudyCard />
+      {cards.length >= 3 ?
+        <StudyCard /> : <NotEnoughCards />
+      }
     </div>
   )
 }
