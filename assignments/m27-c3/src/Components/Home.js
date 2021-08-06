@@ -2,15 +2,15 @@ import React from "react";
 import { Link } from "react-router-dom";
 import "./styles.css";
 
-function Home({decks, removeDeck}){
+function Home({ decks, removeDeck }) {
 
     const handleDeleteDeck = (deckId) => {
         removeDeck(deckId);
     }
 
-    function CreateDeck(){
-        return (       
-            <div className="row">     
+    function CreateDeck() {
+        return (
+            <div className="row">
                 <div className="col-2">
                     <Link to="decks/new">
                         <button type="button" className="btn btn-secondary">
@@ -23,7 +23,7 @@ function Home({decks, removeDeck}){
         )
     }
 
-    function displayDeckBlock(deck){
+    function displayDeckBlock(deck) {
         return (
             <div className="row" key={`deck_${deck.id}`}>
                 <div className="col-6">
@@ -55,7 +55,7 @@ function Home({decks, removeDeck}){
                                     </Link>
                                 </div>
                                 <div className="col-4">
-                                    <button type="button" className="btn btn-danger" onClick={()=>handleDeleteDeck(deck.id)}>Delete</button>
+                                    <button type="button" className="btn btn-danger" onClick={() => handleDeleteDeck(deck.id)}>Delete</button>
                                 </div>
                             </div>
                         </div>
@@ -66,10 +66,10 @@ function Home({decks, removeDeck}){
         )
     }
 
-    function DisplayAllDecks(){
-        return decks.map((deck)=>displayDeckBlock(deck))
+    function DisplayAllDecks() {
+        return decks.map((deck) => displayDeckBlock(deck))
     }
-    
+
     return (
         <div id="Home" className="container">
             <CreateDeck />

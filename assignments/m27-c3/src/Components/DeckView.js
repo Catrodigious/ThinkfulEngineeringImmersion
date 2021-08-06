@@ -1,23 +1,30 @@
-import React, { useEffect } from "react";
-import { useParams, Link, useRouteMatch} from "react-router-dom";
+import React, { useEffect, useState } from "react";
+import { useParams, Link, useRouteMatch } from "react-router-dom";
+import { readDeck } from "../utils/api";
 import "./styles.css";
 
-export const DeckView = function({decks, removeCard}){
+export const DeckView = function ({ removeCard }) {
     const { url } = useRouteMatch();
     const _id = Number(useParams().deckId);
-    const deck = decks.find((d)=>d.id ===_id);
+    const [deck, setDeck] = useState({});
 
-    if (!deck) return null;
+    useEffect(() => {
+        async function getDeck() {
+            const response = await readDeck(_id);
+            setDeck(response);
+        }
+        getDeck();
+    }, [_id]);
 
-    const handleDeleteCard = (cardId) => {
-        removeCard(cardId, _id);
-    }
+    if (!deck.id) return null;
 
-    function DeckBlock(){
+    const handleDeleteCard = (cardId) => removeCard(cardId, _id);
+
+    function DeckBlock() {
         return (
             <div className="row deck-block">
                 <div className="col-12">
-                    <h3>{deck.name}</h3>
+                    <h3><span>{deck.name}</span></h3>
                     <h5>{deck.description}</h5>
                 </div>
                 <div className="col-12">
@@ -32,28 +39,28 @@ export const DeckView = function({decks, removeCard}){
                         </button>
                     </Link>
                     <Link to={`${url}/cards/new`}>
-                    <button type="button" className="btn btn-primary btn-lg">
-                        Add Cards
-                    </button>
+                        <button type="button" className="btn btn-primary btn-lg">
+                            Add Cards
+                        </button>
                     </Link>
                     <div className="float-right">
-                    <button type="button" className="btn btn-danger btn-lg">
-                        Delete
-                    </button>
+                        <button type="button" className="btn btn-danger btn-lg">
+                            Delete
+                        </button>
                     </div>
                 </div>
             </div>
         )
     }
 
-    function Nav(){
+    function Nav() {
         return (
             <div className="row">
                 <div className="col-12">
                     <nav className="navbar navbar-expand-lg navbar-light bg-light nav-flex">
                         <a className="navbar-brand" href="/">
                             <h5 className="text-primary">Home</h5>
-                        </a> 
+                        </a>
                         <h5>/</h5>
                         <a className="nav-link text-secondary" href={`/decks/${deck.id}`}><h5>{deck.name}</h5></a>
                     </nav>
@@ -62,7 +69,7 @@ export const DeckView = function({decks, removeCard}){
         )
     }
 
-    function cardBlock(card){
+    function cardBlock(card) {
         return (
             <div className="card card-block" key={`card_${card.id}`}>
                 <div className="card-body">
@@ -78,44 +85,40 @@ export const DeckView = function({decks, removeCard}){
                         </div>
                         <div className="col-3">
                             <div className="float-right">
-                            <Link to={`${url}/cards/${card.id}/edit`}>
-                            <button type="button" className="btn btn-secondary btn-lg">
-                                Edit
-                            </button>
-                            </Link>
-                            <button type="button" className="btn btn-danger btn-lg" onClick={()=>handleDeleteCard(card.id)}>
-                                Delete
-                            </button>
+                                <Link to={`${url}/cards/${card.id}/edit`}>
+                                    <button type="button" className="btn btn-secondary btn-lg">
+                                        Edit
+                                    </button>
+                                </Link>
+                                <button type="button" className="btn btn-danger btn-lg" onClick={() => handleDeleteCard(card.id)}>
+                                    Delete
+                                </button>
                             </div>
                         </div>
                     </div>
                 </div>
-          </div>
+            </div>
         )
     }
 
-    function AllCards(){
+    function AllCards() {
         return (
             <div className="new row">
                 <div className="col-12">
                     <h1>Cards</h1>
-                    {deck.cards.map((card)=>cardBlock(card))}
+                    {deck.cards.map((card) => cardBlock(card))}
                 </div>
             </div>
         )
     }
 
-    if (deck){
-        return (
-            <div className="container">
-                <Nav />
-                <DeckBlock />
-                <AllCards />
-            </div>
-        )
-    }else{
-        return null;
-    }
+    return (
+        <div className="container">
+            <Nav />
+            <DeckBlock />
+            <AllCards />
+        </div>
+    )
 }
 
 export default DeckView;

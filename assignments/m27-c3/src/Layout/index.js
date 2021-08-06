@@ -1,8 +1,10 @@
 import React, {useState, useEffect} from "react";
+import { Switch, Route, useHistory } from "react-router-dom";
+// api calls for data
+import { listDecks, deleteDeck, deleteCard } from "../utils/api";
+// components
 import Header from "./Header";
 import NotFound from "./NotFound";
-import { Switch, Route, useHistory } from "react-router-dom";
-import { listDecks, deleteDeck, deleteCard } from "../utils/api";
 import  Home from "../Components/Home";
 import DeckView from "../Components/DeckView";
 import Study from "../Components/Study";
@@ -15,6 +17,7 @@ function Layout() {
   const history = useHistory();
   const [decks, updateDecks] = useState([]);
 
+  // loads all existent decks upon first render
   useEffect(()=>{
     async function getDecks(){
       const response = await listDecks();
@@ -25,22 +28,25 @@ function Layout() {
 
   }, []);
 
+  // event handler for removing a card
+  // this functionality exists multiple places, so decided to make it a prop
   const removeCard = (cardId, deckId) => {
     async function remove(){
       const response = await deleteCard(cardId);
+      if (!response) return;
 
-      if (response){
-        history.push(`/decks/${deckId}`);
-        history.goForward();
-        history.go(0);
-      }
+      history.push(`/decks/${deckId}`);
+      history.goForward();
+      history.go(0);
+      
     }
-
-    if (window.confirm("Are you sure you want to delete this card?")){
-      remove();
-    }
+    
+    (window.confirm("Are you sure you want to delete this card?")) && remove();
+    
   }
 
+    // event handler for removing a deck
+  // this functionality exists multiple places, so decided to make it a prop
   const removeDeck = (deckId) => {
     async function remove(){
       const response = await deleteDeck(deckId);
@@ -74,23 +80,23 @@ function Layout() {
           
           {/* Decks */}
           <Route exact={true} path="/decks/:deckId">
-            <DeckView decks={decks} removeCard={removeCard} />
+            <DeckView removeCard={removeCard} />
           </Route>
 
           <Route path="/decks/:deckId/study">
-            <Study decks={decks} />
+            <Study />
           </Route>
 
           <Route path="/decks/:deckId/edit">
-            <EditDeck decks={decks} />
+            <EditDeck />
           </Route>
 
           <Route path="/decks/:deckId/cards/new">
-            <NewCard decks={decks} />
+            <NewCard />
           </Route>
 
           <Route path="/decks/:deckId/cards/:cardId/edit">
-            <EditCard decks={decks} />
+            <EditCard />
           </Route>
 
           {/* Not Found */}

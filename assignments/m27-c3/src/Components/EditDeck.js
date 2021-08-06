@@ -1,23 +1,32 @@
-import React, {useState} from "react";
+import React, {useState, useEffect} from "react";
 import { useHistory, useParams } from "react-router-dom";
 import { updateDeck } from "../utils/api";
+import { readDeck } from "../utils/api";
 
-// Needs wiring
-// Review React State Management - Forms w/Input Fields
-//  https://courses.thinkful.com/zid-fe-react-state-management-v1/checkpoint/6
 
-export const EditDeck = function({decks}){
+export const EditDeck = function(){
   const history = useHistory();
   const [name, setName] = useState("");
   const [description, setDescription] = useState("");
+  const [deck, setDeck] = useState({});
 
-  const _id = Number(useParams().deckId);
-  const deck = decks.find((d)=>d.id ===_id);
+  const _deckId = Number(useParams().deckId);
+
+  useEffect(()=>{
+    async function getDeck(){
+        const response = await readDeck(_deckId);
+        setDeck(response);
+        setName(response.name);
+        setDescription(response.description);
+    }
+    getDeck();
+}, [_deckId]);
+
 
   const handleNameChange = (evt) => setName(evt.target.value);
   const handleDescriptionChange = (evt) => setDescription(evt.target.value);
 
-  if (!deck) return null;
+  if (!deck.id) return null;
 
   function Nav(){
     return (
@@ -28,9 +37,9 @@ export const EditDeck = function({decks}){
                         <h5 className="text-primary">Home</h5>
                     </a> 
                     <h5>/</h5>
-                    <a className="nav-link text-primary" href={`/decks/${_id}`}><h5>{deck.name}</h5></a>
+                    <a className="nav-link text-primary" href={`/decks/${_deckId}`}><h5><span value={deck.name}>{deck.name}</span></h5></a>
                     <h5>/</h5>
-                    <a className="nav-link text-secondary" href={`/decks/${_id}/edit`}><h5>Edit Deck</h5></a>
+                    <a className="nav-link text-secondary" href={`/decks/${_deckId}/edit`}><h5>Edit Deck</h5></a>
                     </nav>
             </div>
         </div>
@@ -41,7 +50,7 @@ export const EditDeck = function({decks}){
     return (
       <div className="row">
         <div className="col-12">
-        <h1>Edit Deck</h1>
+        <h1>Edit Deck - <span>{deck.name}</span></h1>
         </div>
       </div>
     )
@@ -53,9 +62,11 @@ export const EditDeck = function({decks}){
     async function sendDeckUpdate(deck){
       const response = await updateDeck(deck);
       
-      setName("");
-      setDescription("");
-      history.go(-1);
+      if (response){
+        setName("");
+        setDescription("");
+        history.go(-1);
+      }
     }
 
  
@@ -76,11 +87,11 @@ export const EditDeck = function({decks}){
           <form className="EditDeckForm" onSubmit={handleOnSubmit}>
             <div className="form-group">
               <label htmlFor="editDeckName">Name</label>
-              <input type="text" className="form-control" id="editDeckName" required placeholder={deck.name} onChange={handleNameChange}  />
+              <input type="text" className="form-control" id="editDeckName" required placeholder={deck.name} defaultValue={deck.name} onChange={handleNameChange}  />
             </div>
             <div className="form-group">
               <label htmlFor="editDeckDescription">Brief Description</label>
-              <textarea className="form-control" id="editDeckDescription" required placeholder={deck.description} rows="3" onChange={handleDescriptionChange}></textarea>
+              <textarea className="form-control" id="editDeckDescription" required placeholder={deck.description} defaultValue={deck.description} rows="3" onChange={handleDescriptionChange}></textarea>
             </div>
             <div className="form-group">
               <button type="button" className="btn btn-secondary btn-lg" onClick={()=>history.go(-1)}>
@@ -96,4 +107,5 @@ export const EditDeck = function({decks}){
     </div>
   )
 }
+
 export default EditDeck;

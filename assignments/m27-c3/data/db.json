@@ -24,8 +24,8 @@
   "cards": [
     {
       "id": 1,
-      "front": "Differentiate between types of doms",
-      "back": "this is a first example",
+      "front": "Differentiate between various things.",
+      "back": "this is a first example!",
       "deckId": 1
     },
     {
