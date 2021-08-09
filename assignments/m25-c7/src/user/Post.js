@@ -13,7 +13,6 @@ export const Post = ({ posts }) => {
     if (result) {
       await deletePost(id);
       history.push("/");
-      history.goForward();
     }
   };
 

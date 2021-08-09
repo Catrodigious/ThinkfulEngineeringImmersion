@@ -3,21 +3,26 @@ import { useParams, Link, useRouteMatch } from "react-router-dom";
 import { readDeck } from "../utils/api";
 import "./styles.css";
 
+// displays the decks in Bootstrap card view from the home page
 export const DeckView = function ({ removeCard }) {
     const { url } = useRouteMatch();
     const _id = Number(useParams().deckId);
     const [deck, setDeck] = useState({});
 
+    // takes the id from the URL params upon first render
+    // doesn't need anything in dependencies; will change as the url changes
     useEffect(() => {
         async function getDeck() {
             const response = await readDeck(_id);
             setDeck(response);
         }
         getDeck();
-    }, [_id]);
+    }, []);
 
+      // checks for deck existence before following up w/ additional logic
     if (!deck.id) return null;
 
+    // removeCard is passed as a prop from index as it is called from multiple components
     const handleDeleteCard = (cardId) => removeCard(cardId, _id);
 
     function DeckBlock() {

@@ -2,11 +2,10 @@ import React from "react";
 import { Link } from "react-router-dom";
 import "./styles.css";
 
+// displays 'create card' and the existent decks
 function Home({ decks, removeDeck }) {
-
-    const handleDeleteDeck = (deckId) => {
-        removeDeck(deckId);
-    }
+    // removeCard is passed as a prop from index as it is called from multiple components
+    const handleDeleteDeck = (deckId) => removeDeck(deckId);
 
     function CreateDeck() {
         return (

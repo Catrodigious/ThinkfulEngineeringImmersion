@@ -6,7 +6,7 @@ export const PostsNav = () => (
   <nav aria-label="breadcrumb">
     <ol className="breadcrumb">
       <li className="breadcrumb-item">
-        <a className="btn btn-link">Go Home</a>
+        <Link to="/"><a className="btn btn-link">Go Home</a></Link>
       </li>
     </ol>
   </nav>

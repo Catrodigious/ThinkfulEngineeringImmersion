@@ -17,8 +17,7 @@ import { Route, Switch, useRouteMatch } from "react-router-dom";
 */
 
 export const PostList = ({ posts }) => {
-  const { path } = useRouteMatch();
-  console.log("path from postList: ", path);
+  const { url } = useRouteMatch();
   const postLinks = posts.map((post) => (
     <PostLink key={post.id} userId={post.userId} post={post} />
   ));
@@ -30,7 +29,7 @@ export const PostList = ({ posts }) => {
       </div>
       <div className="col-9">
         <Switch>
-         <Route path={`${path}/:postId`}>
+         <Route path={`${url}/:postId`}>
             <Post posts={posts} />
           </Route>
           <Route>

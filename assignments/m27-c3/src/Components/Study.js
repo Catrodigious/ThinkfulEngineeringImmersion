@@ -2,6 +2,8 @@ import React, { useState, useEffect } from "react";
 import { useParams, useHistory, useRouteMatch } from "react-router-dom";
 import { readDeck } from "../utils/api";
 
+// displays the flash cards front first - can only switch to next card by flipping the card
+// then hitting next
 export const Study = function () {
   const { url } = useRouteMatch();
   const history = useHistory();
@@ -11,18 +13,20 @@ export const Study = function () {
   const _deckId = Number(useParams().deckId);
   const [deck, setDeck] = useState({});
 
+  // takes the id from the URL params upon first render
+  // doesn't need anything in dependencies; will change as the url changes
   useEffect(() => {
     async function getDeck() {
       const response = await readDeck(_deckId);
       setDeck(response);
     }
     getDeck();
-  }, [_deckId]);
+  }, []);
 
-
+  // checks for deck existence before following up w/ additional logic
   if (!deck) return null;
   const cards = deck.cards || null;
-
+  // checks for card existence before following up w/ additional logic
   if (!cards) return null;
 
   const handleAddCards = (evt) => {

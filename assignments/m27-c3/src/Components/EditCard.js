@@ -2,6 +2,7 @@ import React, { useState, useEffect } from "react";
 import { useHistory, useParams } from "react-router-dom";
 import { readDeck, updateCard } from "../utils/api";
 
+// displays a form requesting front/back inputs for modifying an existing card
 export const EditCard = function () {
   const history = useHistory();
   const [editFront, setFrontEdit] = useState("");
@@ -11,6 +12,8 @@ export const EditCard = function () {
   const _deckId = Number(useParams().deckId);
   const _cardId = Number(useParams().cardId);
 
+  // takes the id from the URL params upon first render
+  // doesn't need anything in dependencies; will change as the url changes
   useEffect(() => {
     async function getDeck() {
       const response = await readDeck(_deckId);
@@ -21,10 +24,12 @@ export const EditCard = function () {
       setBackEdit(initialValues.back);
     }
     getDeck();
-  }, [_deckId, _cardId]);
+  }, []);
 
+    // checks for deck existence before following up w/ additional logic
   if (!deck.id) return null;
   const card = deck.cards.find((c) => c.id === _cardId);
+    // checks for card existence before following up w/ additional logic
   if (!card.id) return null;
 
   const handleFrontChange = (evt) => setFrontEdit(evt.target.value);

@@ -2,6 +2,7 @@ import React, { useState, useEffect } from "react";
 import { useHistory, useParams } from "react-router-dom";
 import { readDeck, createCard } from "../utils/api";
 
+// displays a form for creating a new card, which requires front and back inputs
 export const NewCard = function () {
   const history = useHistory();
   const _deckId = Number(useParams().deckId);
@@ -9,17 +10,20 @@ export const NewCard = function () {
   const [back, setBack] = useState("");
   const [deck, setDeck] = useState({});
 
+  // deckId is used for the dependency array because 
+  // if the deckId changes at all, it'll change the cards that are displayed
   useEffect(() => {
     async function getDeck() {
       const response = await readDeck(_deckId);
       setDeck(response);
     }
     getDeck();
-  }, [_deckId]);
+  }, []);
 
-
+  // checks for deck existence before following up w/ additional logic
   if (!deck.id) return null;
 
+  // event handlers for front/back buttons
   const handleFrontInput = (evt) => setFront(evt.target.value);
   const handleBackInput = (evt) => setBack(evt.target.value);
 

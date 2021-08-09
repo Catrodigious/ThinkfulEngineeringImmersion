@@ -24,7 +24,7 @@
   "cards": [
     {
       "id": 1,
-      "front": "Differentiate between various things.",
+      "front": "Differentiate between various things",
       "back": "this is a first example!",
       "deckId": 1
     },
