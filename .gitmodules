@@ -1,0 +1,6 @@
+[submodule "Assignments/M36_Backend_Deployment/m36-c3"]
+	path = Assignments/M36_Backend_Deployment/m36-c3
+	url = https://git.heroku.com/blooming-cliffs-80227.git
+[submodule "Assignments/M39_Capstone_Backend/m39-c3"]
+	path = Assignments/M39_Capstone_Backend/m39-c3
+	url = git@github.com:Catrodigious/ThinkfulEngineeringImmersion.git
